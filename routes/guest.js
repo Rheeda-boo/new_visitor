@@ -124,7 +124,15 @@ router.put("/guestout", (req, res) => {
       res.send({ error: "NO VISITOR FOUND" });
       return;
  
-    }else{
+    }
+
+    if (guest.status === "logged out") {
+      console.log("You are already logged out");
+      res.send({ msg: "You are already logged out" });
+      return;
+    } 
+    
+    else{
       //checking out the user - if the visitor is inisde
       req.logout();
       console.log("Log")
@@ -218,17 +226,37 @@ router.put("/qrguestOut", (req, res) => {
         res.send({ error: err });
         return;
       }
-      guest.status = "Logged out",
-      guest.timeOut = new Date(),
-      guest
-      .save()
-      .then((value) => {
+
+      if (guest === null) {
+        console.log("no visitor is found");
+        res.send({ error: "NO VISITOR FOUND" });
+        return;
+      } 
+      
+      if (guest.status !== "logged in") {
+        console.log("You have not logged in yet");
+        res.send({ msg: "You have not logged in yet" });
+        return;
+      } 
+      else{
         
-          res.send(`Notifation sent to ${host.hostName}, Please wait in the reception area`)
-            .catch((error) => res.send(error.message));
-        
-      })  
-      .catch((value) => console.log(value));
+        req.logout();
+        console.log("Log")
+        guest.timeOut = new Date();
+        guest.status = "logged out";
+        guest.save((err) => {
+            if (err) {
+            console.error(err);
+            res.send({ error: err });
+            return;
+            }
+            else{
+              
+                  res.send({ msg: "Logged out" });
+                  return;   
+            } 
+        })
+      }
     })
   })  
 }) 

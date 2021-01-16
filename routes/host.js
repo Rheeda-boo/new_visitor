@@ -52,7 +52,7 @@ router.post("/addguest", (req, res) => {
           hostName: hostName,
           phoneNo : phoneNo,
           role : "guest",
-          // status: "logged in",
+          status: "",
           // created : new Date(),
           // timeIn : new Date(),
           qr:url,
@@ -60,7 +60,7 @@ router.post("/addguest", (req, res) => {
 
         newGuest
         .save()
-        console.log(guest.email)
+        // console.log(newGuest.guestName)
         // .then((value) => {
           async function sendMail() {
             try {

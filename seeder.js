@@ -9,6 +9,8 @@ const importData = () => {
     email: "admin@gmail.com",
     password: "admin123",
     role: "admin",
+    createdAt: new Date(),
+    phoneNo: 123456,
 
   });
 
